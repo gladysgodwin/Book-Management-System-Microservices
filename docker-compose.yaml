@@ -1,0 +1,118 @@
+version: "3.8"
+services:
+  book-ui:
+    image: gladysgodwin/book-management-system:bookmanageservice-ui
+    ports:
+      - 8085:80
+    volumes:
+      - book-management-data:/var/www/html
+    networks:
+      - my-network
+  customer-ui:
+    image: gladysgodwin/book-management-system:customerservice-ui
+    ports:
+      - 8084:80
+    volumes:
+      - customerservice-data:/var/www/html
+    networks:
+      - my-network
+  user-ui:
+    image: gladysgodwin/book-management-system:userservice-ui
+    ports:
+      - 8083:80
+    volumes:
+      - userservice-data:/var/www/html
+    networks:
+      - my-network
+
+  api-service:
+    image: gladysgodwin/book-management-system:apiservice
+    ports:
+      - 3000:3000
+    volumes:
+      - apiservice-data:/app/api-gateway
+    networks:
+      - my-network
+  
+  book-service:
+    image: gladysgodwin/book-management-system:bookservice
+    ports:
+      - 8080:80
+    volumes:
+      - book-service-data:/var/www/html
+    networks:
+      - my-network
+    depends_on:
+      - mysql-db
+
+  customer-service:
+    image: gladysgodwin/book-management-system:customerservice
+    ports:
+      - 8088:8088
+    volumes:
+      - customer-service-data:/app/customer-support
+    networks:
+      - my-network
+  
+  order-service:
+    image: gladysgodwin/book-management-system:orderservice
+    ports:
+      - 8082:8082
+    volumes:
+      - order-service-data:/ordering-system
+    networks:
+      - my-network
+
+  user-service:
+    image: gladysgodwin/book-management-system:userservice
+    ports:
+      - 4000:4000
+    volumes:
+      - user-service-data:/app/user-management
+    networks:
+      - my-network
+    depends_on:
+      - my-mongodb
+  
+  mysql-db:
+    image: mysql:latest
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=testpassword
+      - MYSQL_HOSTNAME= localhost
+      - MYSQL_DATABASE=book-management
+      - MYSQL_USERNAME=root
+    networks:
+      - my-network
+  
+  my-mongodb:
+    image: mongo-express
+    restart: always
+    volumes:
+      - mongo-data:/etc/mongo
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: testpassword
+      ME_CONFIG_MONGODB_URL: mongodb://my-mongodb:8081
+    networks:
+      - my-network
+
+volumes:
+  mongo-data:
+  mysql-data:
+  apiservice-data:
+  book-service-data:
+  userservice-data:
+  book-management-data:
+  customerservice-data:
+  customer-service-data:
+  order-service-data:
+  user-service-data:
+
+networks:
+  my-network:
