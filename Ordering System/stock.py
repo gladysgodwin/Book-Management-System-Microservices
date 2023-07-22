@@ -11,9 +11,9 @@ import json as json1
 import mysql.connector
 
 mydb = mysql.connector.connect(
-  host="localhost",
+  host="0.0.0.0",
   user="root",
-  passwd="",
+  passwd="testpassword",
   database="book management"
 )
 mycursor = mydb.cursor()

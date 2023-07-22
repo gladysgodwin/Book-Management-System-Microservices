@@ -24,7 +24,7 @@ def sign_up():
         print(req)
         connection = psycopg2.connect(user="postgres",
                                   password="het",
-                                  host="127.0.0.1",
+                                  host="0.0.0.0",
                                   port="5432",
                                   database="postgres")
         cursor = connection.cursor()
@@ -33,9 +33,9 @@ def sign_up():
         
         json = JSON.dumps(req);
         print(json)
-        temp =requests.get('http://127.0.0.1:8000/order')
+        temp =requests.get('http://0.0.0.0:8000/order')
         time.sleep(2)
-        temp =requests.get('http://127.0.0.1:8000/order')
+        temp =requests.get('http://0.0.0.0:8000/order')
         
         
         #RABBITMQ PUBLISH QUEUE1
@@ -82,7 +82,7 @@ def sign_up():
 def v_timestamp():
     connection = psycopg2.connect(user="postgres",
                                   password="het",
-                                  host="127.0.0.1",
+                                  host="0.0.0.0",
                                   port="5432",
                                   database="postgres")
     mycursor = connection.cursor()

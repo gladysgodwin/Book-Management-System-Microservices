@@ -1,13 +1,9 @@
-FROM nginx:alpine
+FROM php:7.4-apache
 
-# Remove the default Nginx configuration
-RUN rm -rf /etc/nginx/conf.d/*
+WORKDIR /var/www/html
 
-# Copy the static files to the Nginx document root
-COPY . /usr/share/nginx/html
-
+COPY . /var/www/html/
 
 EXPOSE 80
 
-# Start the Nginx server
-CMD ["nginx", "-g", "daemon off;"]
+CMD [ "apache2-foreground" ]

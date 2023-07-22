@@ -1,13 +1,15 @@
 FROM python:3.9-slim
 
-WORKDIR /app/customer-support
+WORKDIR /app/ordering-system
+
+COPY requirements.txt requirements.txt
+
+RUN pip3 install -r requirements.txt
+
+RUN pip3 install psycopg2-binary pika requests mysql-connector
 
 COPY . .
 
-RUN apt-get update && apt-get install -y nodejs npm
+EXPOSE 8080
 
-RUN npm install
-
-EXPOSE 8082
-
-CMD [ "python", "server.py" ]
+CMD [ "python3", "order.py", "stock.py"]

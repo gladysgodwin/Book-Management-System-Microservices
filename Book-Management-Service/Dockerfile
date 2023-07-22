@@ -2,7 +2,7 @@ FROM php:7.4-apache
 
 WORKDIR /var/www/html
 
-COPY . .
+COPY . /var/www/html
 
 COPY db/db.php /db
 
@@ -12,6 +12,6 @@ RUN docker-php-ext-install mysqli
 
 # RUN service apache2 start && sleep 5 && cat /tmp/book-management.sql | mysql -u root -h localhost "book-management"
 
-EXPOSE 80
+EXPOSE 8080
 
-CMD [ "apache2 -D FOREGROUND" ]
+CMD [ "apache2-foreground" ]
